@@ -48,13 +48,7 @@ graph LR
 - Scoped the Control Panel restriction to Kathy through Group Policy security filtering.
 - Verified client-to-server connectivity and DNS resolution.
 
-Representative evidence:
-
-![SalesMarketing OU and users](screenshots/task1-ad-and-gpo/03-salesmarketing-ou-users.png)
-
-![Configured logon hours](screenshots/task1-ad-and-gpo/04-logon-hours.png)
-
-![Client connectivity and DNS resolution](screenshots/task1-ad-and-gpo/08-client-connectivity-dns.png)
+Evidence folder: [`screenshots/task1-ad-and-gpo`](screenshots/task1-ad-and-gpo/)
 
 ### Task 2 — NTFS, Share Permissions & Effective Access
 
@@ -86,13 +80,7 @@ The folder was also exposed as a network share at:
 
 Share permissions were kept broad while NTFS permissions enforced the detailed access model. Effective Access was reviewed for all five users to validate the final permission result.
 
-![MRKTG permissions](screenshots/task2-permissions/01-mrktg-explicit-permissions.png)
-
-![SALES.TXT permissions](screenshots/task2-permissions/02-sales-txt-permissions.png)
-
-![Bob effective access](screenshots/task2-permissions/03-effective-access-bob.png)
-
-Full Effective Access evidence is available in [`screenshots/task2-permissions`](screenshots/task2-permissions/).
+Evidence folder: [`screenshots/task2-permissions`](screenshots/task2-permissions/).
 
 ### Task 3 — File Access Auditing & Event Viewer
 
@@ -104,9 +92,7 @@ Full Effective Access evidence is available in [`screenshots/task2-permissions`]
 - Filtered for **Event ID 4663** to identify object-access events.
 - Verified the event subject account and access activity associated with the audited file.
 
-![SALES.TXT auditing entry](screenshots/task3-auditing/01-sales-txt-auditing-entry.png)
-
-![Event Viewer filtered for Event ID 4663](screenshots/task3-auditing/02-event-viewer-4663.png)
+Evidence folder: [`screenshots/task3-auditing`](screenshots/task3-auditing/)
 
 ## Validation Performed
 
