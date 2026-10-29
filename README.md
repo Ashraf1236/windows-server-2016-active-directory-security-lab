@@ -132,7 +132,6 @@ See [`docs/testing.md`](docs/testing.md) for the verification checklist.
 ```text
 .
 ├── README.md
-├── .gitignore
 ├── docs/
 │   ├── lab-notes.md
 │   ├── permission-matrix.md
