@@ -1,8 +1,8 @@
 # Task 2 Screenshot Evidence
 
-Place Task 2 permission and Effective Access screenshots here.
+This folder contains Task 2 NTFS permission and Effective Access evidence.
 
-Suggested filenames:
+Included files:
 
 - `01-mrktg-explicit-permissions.png`
 - `02-sales-txt-permissions.png`
