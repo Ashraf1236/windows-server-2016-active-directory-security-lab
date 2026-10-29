@@ -1,10 +1,10 @@
 # Screenshot Evidence
 
-The lab was documented with screenshots during implementation. The repository keeps a clean folder structure for evidence so screenshots can be added without mixing them with documentation files.
+The lab was documented with screenshots during implementation. The repository keeps a clean folder structure for evidence so evidence remains organized and separate from documentation files.
 
 ## Task 1 — Active Directory and Group Policy
 
-Recommended evidence:
+Included evidence:
 - Server IPv4 and DNS configuration
 - Domain controller promotion
 - SalesMarketing OU and user accounts
@@ -16,14 +16,14 @@ Recommended evidence:
 
 ## Task 2 — Permissions
 
-Recommended evidence:
+Included evidence:
 - MRKTG explicit Allow/Deny entries
 - SALES.TXT inherited and direct ACL entries
 - Effective Access for Bob, Karen, Paula, Kathy, and Jon
 
 ## Task 3 — Auditing
 
-Recommended evidence:
+Included evidence:
 - SALES.TXT auditing entry
 - Event Viewer filtered for Event ID 4663
 - Event detail showing the subject user and audited object
