@@ -1,8 +1,8 @@
 # Task 1 Screenshot Evidence
 
-Place Task 1 screenshots here.
+This folder contains Task 1 Active Directory, networking, profile, and Group Policy evidence.
 
-Suggested filenames:
+Included files:
 
 - `01-server-static-ip.png`
 - `02-domain-controller-options.png`
