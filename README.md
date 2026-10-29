@@ -1,6 +1,6 @@
 # Windows Server 2016 Active Directory & Security Lab
 
-A hands-on Windows Server 2016 administration project that builds a small Active Directory environment, applies user and Group Policy controls, secures shared data with NTFS permissions, validates Effective Access, and audits file access through the Windows Security log.
+This project documents my Windows Server 2016 lab, where I configured Active Directory, DNS, Group Policy, NTFS permissions, and file auditing.
 
 > **Project status:** Tasks 1–3 complete. Task 4 (Group Policy software publishing) is intentionally left as **Pending** until it is completed in the lab.
 
@@ -45,7 +45,7 @@ graph LR
 - Configured roaming profile storage under `\\ASHRAF-SERVER\Profiles`.
 - Configured account lockout policy for **3 invalid attempts**, with a **30-minute lockout duration** and **30-minute counter reset**.
 - Created a user-targeted GPO named **Hide Control Panel - Kathy**.
-- Scoped the Control Panel restriction to Kathy through Group Policy security filtering.
+- Applied the Control Panel restriction only to Kathy using security filtering.
 - Verified client-to-server connectivity and DNS resolution.
 
 Evidence folder: [`screenshots/task1-ad-and-gpo`](screenshots/task1-ad-and-gpo/)
@@ -78,7 +78,7 @@ The folder was also exposed as a network share at:
 \\ASHRAF-SERVER\SHARED
 ```
 
-Share permissions were kept broad while NTFS permissions enforced the detailed access model. Effective Access was reviewed for all five users to validate the final permission result.
+I used Everyone: Full Control on the share and controlled access mainly with NTFS permissions. I also checked Effective Access for all five users to confirm the final permissions.
 
 Evidence folder: [`screenshots/task2-permissions`](screenshots/task2-permissions/).
 
@@ -111,7 +111,7 @@ Evidence folder: [`screenshots/task3-auditing`](screenshots/task3-auditing/)
 
 See [`docs/testing.md`](docs/testing.md) for the verification checklist.
 
-## Security Concepts Demonstrated
+## Skills Used in This Lab
 
 - Active Directory domain administration
 - Organizational Units and domain user management
@@ -147,8 +147,8 @@ See [`docs/testing.md`](docs/testing.md) for the verification checklist.
 
 ## Task 4 — Pending
 
-The remaining course task covers creating and sharing an `application` folder and publishing a course-provided MSI through Group Policy to selected users while excluding Kathy and Karen. It is not marked complete here because the lab has not yet been implemented.
+The remaining course task covers creating and sharing an `application` folder and publishing a course-provided MSI through Group Policy to selected users while excluding Kathy and Karen. Task 4 is still pending because I have not completed that part of the lab yet.
 
 ## Notes
 
-This repository documents an **educational lab environment**. The domain, user accounts, IP addresses, and screenshots are lab-only data. VM disk files, ISO images, course-provided binaries, assignment files, and textbook material are intentionally excluded from the repository.
+This repository contains only my lab documentation and screenshots. The domain, user accounts, and IP addresses are used only for this lab. VM files, ISO files, course binaries, assignment files, and textbook material are not included.
