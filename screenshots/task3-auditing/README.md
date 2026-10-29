@@ -1,8 +1,8 @@
 # Task 3 Screenshot Evidence
 
-Place Task 3 auditing screenshots here.
+This folder contains Task 3 file-auditing and Event Viewer evidence.
 
-Suggested filenames:
+Included files:
 
 - `01-sales-txt-auditing-entry.png`
 - `02-event-viewer-4663.png`
