@@ -1,0 +1,169 @@
+# Windows Server 2016 Active Directory & Security Lab
+
+A hands-on Windows Server 2016 administration project that builds a small Active Directory environment, applies user and Group Policy controls, secures shared data with NTFS permissions, validates Effective Access, and audits file access through the Windows Security log.
+
+> **Project status:** Tasks 1–3 complete. Task 4 (Group Policy software publishing) is intentionally left as **Pending** until it is completed in the lab.
+
+## Lab Architecture
+
+```mermaid
+graph LR
+    C[Windows 10 Client\n192.168.0.10] -->|DNS / AD / SMB| S[ASHRAF-SERVER\nWindows Server 2016\n192.168.0.1]
+    S --> AD[AD DS + DNS\nashraf.local]
+    AD --> OU[SalesMarketing OU]
+    OU --> U[Bob · Karen · Paula · Kathy · Jon]
+    S --> SH[C:\\SHARED]
+    SH --> M[MRKTG]
+    M --> F[SALES.TXT]
+```
+
+### Environment
+
+| Component | Configuration |
+|---|---|
+| Server OS | Windows Server 2016 Datacenter |
+| Server name | `ASHRAF-SERVER` |
+| Server IPv4 | `192.168.0.1/24` |
+| Server DNS | `127.0.0.1` |
+| Active Directory domain | `ashraf.local` |
+| NetBIOS domain | `ASHRAF` |
+| Client OS | Windows 10 |
+| Client IPv4 | `192.168.0.10/24` |
+| Client DNS | `192.168.0.1` |
+| Department OU | `SalesMarketing` |
+| Users | Bob, Karen, Paula, Kathy, Jon |
+
+## What I Implemented
+
+### Task 1 — Active Directory, User Controls, Profiles & GPO
+
+- Installed **Active Directory Domain Services** and promoted the server to a domain controller for `ashraf.local`.
+- Configured DNS and verified domain connectivity from a Windows 10 client.
+- Created the **SalesMarketing** organizational unit.
+- Created domain users: **Bob, Karen, Paula, Kathy, and Jon**.
+- Restricted logon hours to **Monday–Friday, 8:00 AM–6:00 PM**.
+- Configured roaming profile storage under `\\ASHRAF-SERVER\Profiles`.
+- Configured account lockout policy for **3 invalid attempts**, with a **30-minute lockout duration** and **30-minute counter reset**.
+- Created a user-targeted GPO named **Hide Control Panel - Kathy**.
+- Scoped the Control Panel restriction to Kathy through Group Policy security filtering.
+- Verified client-to-server connectivity and DNS resolution.
+
+Representative evidence:
+
+![SalesMarketing OU and users](screenshots/task1-ad-and-gpo/03-salesmarketing-ou-users.png)
+
+![Configured logon hours](screenshots/task1-ad-and-gpo/04-logon-hours.png)
+
+![Client connectivity and DNS resolution](screenshots/task1-ad-and-gpo/08-client-connectivity-dns.png)
+
+### Task 2 — NTFS, Share Permissions & Effective Access
+
+Created the following hierarchy:
+
+```text
+C:\SHARED
+└── MRKTG
+    └── SALES.TXT
+```
+
+The root `SHARED` folder was configured without inherited user permissions, then explicit permissions were applied. `MRKTG` inherited from `SHARED` and received additional explicit Allow/Deny entries. `SALES.TXT` inherited from its parent and received a direct Read entry for Jon.
+
+#### Permission design
+
+| Object | Bob | Karen | Paula | Kathy | Jon |
+|---|---|---|---|---|---|
+| `SHARED` direct | R, W, L, RE | L | R, L | M, RE, L, R, W | L |
+| `MRKTG` direct | Deny W | Deny L | Allow M / W / RE | Deny R / L / RE | Allow W + Deny L |
+| `SALES.TXT` direct | — | — | — | — | Allow R |
+
+Legend: **R** Read, **W** Write, **L** List folder contents, **RE** Read & Execute, **M** Modify.
+
+The folder was also exposed as a network share at:
+
+```text
+\\ASHRAF-SERVER\SHARED
+```
+
+Share permissions were kept broad while NTFS permissions enforced the detailed access model. Effective Access was reviewed for all five users to validate the final permission result.
+
+![MRKTG permissions](screenshots/task2-permissions/01-mrktg-explicit-permissions.png)
+
+![SALES.TXT permissions](screenshots/task2-permissions/02-sales-txt-permissions.png)
+
+![Bob effective access](screenshots/task2-permissions/03-effective-access-bob.png)
+
+Full Effective Access evidence is available in [`screenshots/task2-permissions`](screenshots/task2-permissions/).
+
+### Task 3 — File Access Auditing & Event Viewer
+
+- Enabled **Audit object access** for both **Success** and **Failure**.
+- Added a SACL auditing entry on `SALES.TXT` for **Everyone**.
+- Set the auditing type to **All** and selected **Full control** to audit all access types.
+- Generated real file access from the client environment.
+- Reviewed the **Security** event log in Event Viewer.
+- Filtered for **Event ID 4663** to identify object-access events.
+- Verified the event subject account and access activity associated with the audited file.
+
+![SALES.TXT auditing entry](screenshots/task3-auditing/01-sales-txt-auditing-entry.png)
+
+![Event Viewer filtered for Event ID 4663](screenshots/task3-auditing/02-event-viewer-4663.png)
+
+## Validation Performed
+
+| Test | Result |
+|---|---|
+| Ping from Windows 10 to `192.168.0.1` | Passed |
+| `nslookup ashraf.local` | Resolved to `192.168.0.1` |
+| Domain secure channel | Verified successfully |
+| Access to `\\ASHRAF-SERVER\SHARED` | Passed |
+| Effective Access for Bob | Validated |
+| Effective Access for Karen | Validated |
+| Effective Access for Paula | Validated |
+| Effective Access for Kathy | Validated |
+| Effective Access for Jon | Validated |
+| Security audit event generation | Verified with Event ID `4663` |
+
+See [`docs/testing.md`](docs/testing.md) for the verification checklist.
+
+## Security Concepts Demonstrated
+
+- Active Directory domain administration
+- Organizational Units and domain user management
+- DNS integration with AD DS
+- Group Policy configuration and security filtering
+- Account lockout policy
+- Logon-hour restrictions
+- Roaming profiles
+- NTFS inheritance
+- Explicit Allow and Deny ACEs
+- Share vs. NTFS permission interaction
+- Effective Access validation
+- SACL-based file auditing
+- Windows Security Event Log analysis
+
+## Repository Structure
+
+```text
+.
+├── README.md
+├── .gitignore
+├── docs/
+│   ├── lab-notes.md
+│   ├── permission-matrix.md
+│   ├── screenshots.md
+│   └── testing.md
+├── scripts/
+│   └── verify-lab.ps1
+└── screenshots/
+    ├── task1-ad-and-gpo/
+    ├── task2-permissions/
+    └── task3-auditing/
+```
+
+## Task 4 — Pending
+
+The remaining course task covers creating and sharing an `application` folder and publishing a course-provided MSI through Group Policy to selected users while excluding Kathy and Karen. It is not marked complete here because the lab has not yet been implemented.
+
+## Notes
+
+This repository documents an **educational lab environment**. The domain, user accounts, IP addresses, and screenshots are lab-only data. VM disk files, ISO images, course-provided binaries, assignment files, and textbook material are intentionally excluded from the repository.
